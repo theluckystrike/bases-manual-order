@@ -2,9 +2,15 @@ import { PluginSettingTab, type SettingDefinitionItem } from 'obsidian';
 import { fillAccountSetting, fillGetProSetting } from './license/github-obsidian';
 import { PRO_UI, isPro } from './pro';
 import type BasesManualOrderPlugin from './main';
+import { helloSettingItems } from './hello/settings';
 export class BasesManualOrderSettingTab extends PluginSettingTab {
 	constructor(app: ConstructorParameters<typeof PluginSettingTab>[0], private readonly host: BasesManualOrderPlugin) { super(app, host); }
 	getSettingDefinitions(): SettingDefinitionItem[] {
+		// The product rows, then the "More from NoteMods" card (packages/hello).
+		return [...this.productSettingDefinitions(), ...helloSettingItems()];
+	}
+
+	productSettingDefinitions(): SettingDefinitionItem[] {
 		return [
 			{ name: 'Row ordering', desc: 'Choose Manual order in a Bases view menu. Drag a handle or use the up and down buttons. The default numeric property is manual_order.' },
 			...(this.host.pro ? [

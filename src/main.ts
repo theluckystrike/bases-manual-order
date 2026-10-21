@@ -4,9 +4,13 @@ import { createGitHubSponsors } from './license/github-obsidian';
 import { SPONSORS, bindPro, resetPro } from './pro';
 import { BasesManualOrderSettingTab } from './settings';
 import { ManualOrderView, viewOptions } from './view';
+import { setupHello } from './hello/index';
+import WHATS_NEW from './whats-new.json';
 export default class BasesManualOrderPlugin extends Plugin {
 	pro: SponsorsManager | null = null;
 	onload(): void {
+		// First: "What's new" reads its state before the settings load (packages/hello). It does not wait.
+		setupHello(this, WHATS_NEW);
 		const pro = createGitHubSponsors(this.app, this.manifest.id, SPONSORS, this);
 		pro.init(); this.pro = pro; bindPro(pro);
 		const tab = new BasesManualOrderSettingTab(this.app, this);

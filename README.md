@@ -44,7 +44,7 @@ Without Pro, new views use `manual_order`. A view configured with a custom field
 
 ## Install
 
-When this plugin is listed in the community directory, open Settings, Community plugins, Browse. Search for Bases Manual Order, install it and enable it. Also enable the core Bases plugin. The view appears in the view type menu of a base.
+Open Settings, Community plugins, Browse. Search for Bases Manual Order, install it and enable it. Also enable the core Bases plugin. The view appears in the view type menu of a base.
 
 For manual installation, put `main.js`, `manifest.json` and `styles.css` from a release in `<vault>/.obsidian/plugins/bases-manual-order/`. Reload community plugins and enable it. This version needs Obsidian 1.13.4 or newer. It uses public Bases APIs and supports desktop and mobile.
 
@@ -62,6 +62,8 @@ To show the same order in a native Bases table, sort that table ascending by `ma
 Use one rank property across views of the same queue. Choose separate fields with Pro for unrelated queues. Property names must start with a letter or underscore and contain only letters, numbers, underscore characters or hyphens, with at most 80 characters.
 
 ## Settings
+
+After a minor or major update, this plugin opens one What's new tab in the background. The tab and settings card suggest other NoteMods plugins and Zovo Chat and link to notemods.com for feedback ([privacy](https://notemods.com/privacy/)). The tab sends no data. Turn the tab off in Settings.
 
 The view options contain Layout and Rank property. They are saved with the view in the base configuration. The plugin settings tab explains the default field and contains the optional GitHub sign in. There is no startup payment prompt.
 
