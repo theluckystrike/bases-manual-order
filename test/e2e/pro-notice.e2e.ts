@@ -37,7 +37,7 @@ describe('custom rank property Pro gate', () => {
 		}, pluginId);
 		await openBase();
 		const before = await ranks();
-		expect(await browser.$('.bmo-view').getText()).toContain('read-only');
+		expect(await browser.$('.bmo-view').getText()).toContain('Moving rows in this custom ordering needs Pro.');
 		const up = browser.$('.bmo-view button[aria-label="Move Rank C up"]');
 		await up.waitForExist({ timeout: 10000, timeoutMsg: 'A free user has no Move up button for a custom rank property.' });
 		expect(await up.isEnabled()).toBe(true);
@@ -79,7 +79,7 @@ describe('custom rank property Pro gate', () => {
 			// A WebDriver click on the redrawn view was not interactable on CI. The test selects the visible, enabled
 			// button through the DOM, as the drag test in smoke.e2e.ts does, and waits until the Pro redraw has that button.
 			const view = '.bmo-view';
-			await browser.waitUntil(async () => !(await browser.$(view).getText()).includes('read-only'), { timeout: 10000, timeoutMsg: 'The view did not redraw for Pro.' });
+			await browser.waitUntil(async () => !(await browser.$(view).getText()).includes('Moving rows in this custom ordering needs Pro.'), { timeout: 10000, timeoutMsg: 'The view did not redraw for Pro.' });
 			await browser.waitUntil(() => browser.execute(() => {
 				const button = [...document.querySelectorAll<HTMLButtonElement>('.bmo-view button[aria-label="Move Rank C up"]')].find((b) => b.offsetParent !== null && !b.disabled);
 				button?.click();

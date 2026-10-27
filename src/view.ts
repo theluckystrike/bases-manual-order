@@ -1,6 +1,6 @@
 import { BasesView, Modal, Notice, setIcon, type App, type TFile, type BasesAllOptions, type BasesEntry, type QueryController } from 'obsidian';
 import { DEFAULT_PROPERTY, planMove, rankProperty, sortRows, type RankWrite, type Row } from './order';
-import { PRO_CUSTOM_RANK, isPro, onProChange, proNotice } from './pro';
+import { PRO_CUSTOM_RANK, PRO_LOCKED_VIEW, isPro, onProChange, proNotice, proText } from './pro';
 export function viewOptions(): BasesAllOptions[] {
 	return [
 		{ type: 'dropdown', key: 'manualLayout', displayName: 'Layout', default: 'table', options: { table: 'Table', list: 'List' } },
@@ -30,7 +30,7 @@ export class ManualOrderView extends BasesView {
 		catch (error) { this.root.createEl('p', { text: String(error) }); return; }
 		this.root.createEl('p', { cls: 'bmo-hint', text: `Drag a handle onto a row to place it before that row. Rank: ${property}. Up and down buttons also work on mobile.` });
 		const locked = property !== DEFAULT_PROPERTY && !isPro();
-		if (locked) this.root.createEl('p', { text: 'This custom ordering is read-only until you reconnect your sponsoring account. Its rank property is unchanged.' });
+		if (locked) this.root.createEl('p', { text: proText(PRO_LOCKED_VIEW) });
 		const list = this.config.get('manualLayout') === 'list';
 		const groups = this.data.groupedData;
 		if (!this.data.data.length) this.root.createEl('p', { text: 'No notes match this base. Change its filters to show notes.' });

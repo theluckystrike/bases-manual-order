@@ -97,7 +97,8 @@ describe('review regressions', () => {
  it('shows move controls for a custom property when Pro is off, and a move shows the Pro notice without a write', async () => {
   const f=fixture(); f.view.config.get=()=> 'custom_order'; shown.length=0;
   ManualOrderView.prototype.onDataUpdated.call(f.view);
-  expect(f.root.textContent).toContain('read-only');
+  expect(f.root.textContent).toContain('Moving rows in this custom ordering needs Pro. Its rank property is unchanged. Sponsor on GitHub, then sign in from the plugin settings.');
+  expect(f.root.textContent).not.toContain('reconnect');
   const up=f.root.querySelector<HTMLButtonElement>('[aria-label="Move 2 up"]')!;
   expect(up).not.toBeNull(); expect(up.disabled).toBe(false); expect(f.root.querySelector('[draggable]')).not.toBeNull();
   await f.view.move(0,'2.md','0.md','custom_order');
@@ -116,7 +117,7 @@ describe('review regressions', () => {
    f.view.config.get=()=> 'custom_order';
    for (const n of f.notes) (n.frontmatter as Record<string,unknown>).custom_order=n.frontmatter.manual_order;
    ManualOrderView.prototype.onDataUpdated.call(f.view);
-   expect(f.root.textContent).not.toContain('read-only');
+   expect(f.root.textContent).not.toContain('needs Pro');
    await f.view.move(0,'2.md','1.md','custom_order');
    expect(shown).toEqual([]); expect(f.process).toHaveBeenCalledTimes(1);
    expect((f.notes[2]!.frontmatter as Record<string,unknown>).custom_order).toBe(1536); expect(f.notes[2]!.frontmatter.manual_order).toBe(3072);

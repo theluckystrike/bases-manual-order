@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.2.2
+
+### Patch Changes
+
+- ead2837: Without Pro, a view with a custom rank property now says that moving rows needs Pro. The text gives the next step and no longer says that the ordering is read-only.
+
 ## 1.2.1
 
 ### Patch Changes

@@ -40,7 +40,7 @@ Missing ranks appear after numbered rows. Equal ranks have a stable order based 
 
 Pro lets each view choose a custom rank property. For example, use `reading_order` for a research sequence and `draft_order` for a chapter plan. Moving a row in one ordering leaves the other property's number alone. All notes remain ordinary Markdown files, and their saved numbers remain available even when Pro is off.
 
-Without Pro, new views use `manual_order`. A view configured with a custom field stays read-only when Pro is off. Reconnect your sponsoring account to move rows in that ordering again. The core row ordering feature has no row limit or trial period.
+Without Pro, new views use `manual_order`. In a view configured with a custom field, a move without Pro shows the Pro notice and writes nothing. The rank property of the notes is unchanged. The core row ordering feature has no row limit or trial period.
 
 ## Install
 

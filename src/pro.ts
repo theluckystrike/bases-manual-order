@@ -1,7 +1,7 @@
 // Pro through GitHub Sponsors (packages/license, github.ts). product.yaml pro: holds the same values; fx check compares them.
 // Every Pro check in the plugin calls isPro(); views redraw through onProChange(). main.ts binds the manager in onload.
 import type { SponsorsConfig, SponsorsManager } from './license/index';
-import { showProNotice } from './license/github-obsidian';
+import { proNeededText, showProNotice } from './license/github-obsidian';
 
 export const SPONSORS: SponsorsConfig = {
 	// Public client id of the seller's OAuth App (device flow on, no client secret anywhere).
@@ -22,6 +22,9 @@ export const PRO_UI = {
 
 /** Lead of the Pro gate notice. showProNotice adds the next step for this user. */
 export const PRO_CUSTOM_RANK = 'Custom rank properties need Pro.';
+
+/** Lead of the text in a view with a custom rank property, when Pro is off. */
+export const PRO_LOCKED_VIEW = 'Moving rows in this custom ordering needs Pro. Its rank property is unchanged.';
 
 type Listener = () => void;
 
@@ -62,4 +65,9 @@ export function resetPro(): void {
 /** Shows the shared Pro gate notice: the lead, then the next step. A free user also gets the Sponsor on GitHub button. */
 export function proNotice(lead: string): void {
 	showProNotice(manager, lead);
+}
+
+/** The shared Pro gate text: the lead, then the next step for this user (the same words as the notice). */
+export function proText(lead: string): string {
+	return proNeededText(manager, lead);
 }
