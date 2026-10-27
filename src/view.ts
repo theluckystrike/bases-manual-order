@@ -1,6 +1,6 @@
 import { BasesView, Modal, Notice, setIcon, type App, type TFile, type BasesAllOptions, type BasesEntry, type QueryController } from 'obsidian';
 import { DEFAULT_PROPERTY, planMove, rankProperty, sortRows, type RankWrite, type Row } from './order';
-import { isPro, onProChange } from './pro';
+import { PRO_CUSTOM_RANK, isPro, onProChange, proNotice } from './pro';
 export function viewOptions(): BasesAllOptions[] {
 	return [
 		{ type: 'dropdown', key: 'manualLayout', displayName: 'Layout', default: 'table', options: { table: 'Table', list: 'List' } },
@@ -49,7 +49,8 @@ export class ManualOrderView extends BasesView {
 				const entry = byPath.get(row.id)!;
 				const tr = body.createEl('tr', { attr: { 'data-path': row.id } });
 				const controls = tr.createEl('td', { cls: 'bmo-controls' });
-				if (!locked && entry.file.extension === 'md') {
+				// A free user with a custom rank property also gets the controls: a move shows the Pro notice (move()).
+				if (entry.file.extension === 'md') {
 					const handle = controls.createEl('button', { text: '⠿', attr: { 'aria-label': `Drag ${entry.file.basename}`, title: 'Drag to reorder', draggable: 'true', tabindex: '-1', 'aria-hidden': 'true' } });
 					handle.addEventListener('dragstart', event => {
 						this.dragged = { id: row.id, group: groupIndex };
@@ -84,11 +85,12 @@ export class ManualOrderView extends BasesView {
 		return new Promise(resolve => new RankConfirmModal(this.app, count, resolve).open());
 	}
 	async move(groupIndex: number, source: string, before: string | null, property: string): Promise<void> {
+		// A free user can select the controls of a custom ordering: show what needs Pro and how to get it. Write nothing.
+		if (property !== DEFAULT_PROPERTY && !isPro()) { proNotice(PRO_CUSTOM_RANK); return; }
 		if (this.busy) return;
 		this.busy = true; this.root.setAttribute('aria-busy', 'true');
 		const written: { file: TFile; write: RankWrite; hadProperty: boolean }[] = [];
 		try {
-			if (property !== DEFAULT_PROPERTY && !isPro()) throw new Error('Connect Pro before changing this custom ordering.');
 			if (property !== rankProperty(this.config.get('manualRank'), true)) throw new Error('The rank property changed. Try again.');
 			const group = this.data.groupedData[groupIndex];
 			if (!group) throw new Error('The group changed. Try again.');

@@ -1,7 +1,6 @@
 {
 	"name": "bases-manual-order",
-	"repository": {"type": "git", "url": "theluckystrike/bases-manual-order.git"},
-	"version": "1.2.0",
+	"version": "1.2.1",
 	"private": true,
 	"description": "Drag rows into a lasting order stored in a numeric note property.",
 	"main": "main.js",

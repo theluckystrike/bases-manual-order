@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.2.1
+
+### Patch Changes
+
+- 7acce25: The move controls now show for a custom rank property when Pro is off. A move shows how to get Pro, with a Sponsor on GitHub button, and writes no rank.
+
 ## 1.2.0
 
 ### Minor Changes

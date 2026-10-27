@@ -1,7 +1,10 @@
 import { describe, expect, it, vi } from 'vitest';
 import { ManualOrderView, RankConfirmModal } from '../src/view';
 import { App } from 'obsidian-test-mocks/obsidian';
-import { resetPro } from '../src/pro';
+import { bindPro, resetPro } from '../src/pro';
+import type { SponsorsManager } from '../src/license/index';
+const shown = vi.hoisted(() => [] as string[]);
+vi.mock('../src/license/github-obsidian', async (original) => ({ ...(await original<typeof import('../src/license/github-obsidian')>()), showProNotice: (_pro: unknown, lead: string) => { shown.push(lead); return null; } }));
 function fixture(ranks: unknown[] = [1024, 2048, 3072]) {
  resetPro();
  const notes = ranks.map((rank,i)=>({file:{path:`${i}.md`, basename:`${i}`, extension:'md'}, frontmatter:{manual_order:rank, status:'draft'}}));
@@ -91,11 +94,33 @@ describe('review regressions', () => {
   expect(f.root.querySelector('[draggable]')!.getAttribute('tabindex')).toBe('-1');
   expect(f.root.querySelector('a')!.getAttribute('data-href')).toBe('0.md');
  });
- it('keeps a custom property read-only when Pro is off', async () => {
-  const f=fixture(); f.view.config.get=()=> 'custom_order';
+ it('shows move controls for a custom property when Pro is off, and a move shows the Pro notice without a write', async () => {
+  const f=fixture(); f.view.config.get=()=> 'custom_order'; shown.length=0;
   ManualOrderView.prototype.onDataUpdated.call(f.view);
-  expect(f.root.textContent).toContain('read-only'); expect(f.root.querySelector('button')).toBeNull();
-  await f.view.move(0,'2.md','0.md','custom_order'); expect(f.process).not.toHaveBeenCalled();
+  expect(f.root.textContent).toContain('read-only');
+  const up=f.root.querySelector<HTMLButtonElement>('[aria-label="Move 2 up"]')!;
+  expect(up).not.toBeNull(); expect(up.disabled).toBe(false); expect(f.root.querySelector('[draggable]')).not.toBeNull();
+  await f.view.move(0,'2.md','0.md','custom_order');
+  expect(f.process).not.toHaveBeenCalled(); expect(shown).toEqual(['Custom rank properties need Pro.']);
+  expect((f.view as unknown as {busy:boolean}).busy).toBe(false); expect(f.update).not.toHaveBeenCalled();
+ });
+ it('does not show the Pro notice for the default property when Pro is off', async () => {
+  const f=fixture(); shown.length=0;
+  await f.view.move(0,'2.md','1.md','manual_order');
+  expect(shown).toEqual([]); expect(f.process).toHaveBeenCalledTimes(1);
+ });
+ it('moves a note with a custom property when Pro is on', async () => {
+  const f=fixture(); shown.length=0;
+  bindPro({ isPro: ()=>true, onChange: ()=>()=>{} } as unknown as SponsorsManager);
+  try {
+   f.view.config.get=()=> 'custom_order';
+   for (const n of f.notes) (n.frontmatter as Record<string,unknown>).custom_order=n.frontmatter.manual_order;
+   ManualOrderView.prototype.onDataUpdated.call(f.view);
+   expect(f.root.textContent).not.toContain('read-only');
+   await f.view.move(0,'2.md','1.md','custom_order');
+   expect(shown).toEqual([]); expect(f.process).toHaveBeenCalledTimes(1);
+   expect((f.notes[2]!.frontmatter as Record<string,unknown>).custom_order).toBe(1536); expect(f.notes[2]!.frontmatter.manual_order).toBe(3072);
+  } finally { resetPro(); }
  });
  it('does not rewrite a large ordered queue when one new note has no rank', async () => {
   const f=fixture([...Array.from({length:200},(_,i)=>i+1),undefined]);
