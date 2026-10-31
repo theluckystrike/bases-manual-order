@@ -4,7 +4,7 @@ Put your writing queue, reading list or project notes in the order you want. Bas
 
 <img src="https://raw.githubusercontent.com/theluckystrike/bases-manual-order/HEAD/docs/table.png" alt="Writing queue grouped by status with numeric ranks" width="720">
 
-The free tier includes both layouts, every row, grouping, drag handles and move buttons using `manual_order`. Pro adds custom rank properties for separate orders in different views. It costs $15 one time or $5 a month. [Get Pro](https://github.com/sponsors/theluckystrike?metadata_source=bases-manual-order), or choose the [$15 one-time offer](https://github.com/sponsors/theluckystrike/sponsorships?tier_id=666162&metadata_source=bases-manual-order).
+The free tier includes both layouts, every row, grouping, drag handles and move buttons using `manual_order`. Pro adds custom rank properties for separate orders in different views. It costs $15 one time or $5 a month. [Get Pro](https://github.com/sponsors/theluckystrike?frequency=one-time&metadata_source=bases-manual-order), or choose the [$15 one-time offer](https://github.com/sponsors/theluckystrike/sponsorships?tier_id=666162&metadata_source=bases-manual-order).
 
 A queue often needs a judgment that a date or title cannot express. Numeric ranks keep your choices available to other Bases views.
 
@@ -83,7 +83,7 @@ Can two devices arrange the same queue at once? Avoid simultaneous moves on a sh
 
 The core features are free. Pro features need a GitHub Sponsors sponsorship of theluckystrike: $5 a month or more, or $15 once. A total payment of $15 meets the payment requirement for Pro without further payment. Sign-in and the checks below still apply. Your notes stay readable and editable with or without Pro.
 
-GitHub handles the payment. Sponsor at https://github.com/sponsors/theluckystrike. You need no account for the free features. Pro needs the GitHub account that sponsors.
+GitHub handles the payment. Sponsor at https://github.com/sponsors/theluckystrike?frequency=one-time&metadata_source=bases-manual-order. You need no account for the free features. Pro needs the GitHub account that sponsors.
 
 Until you select "Sign in with GitHub" in the settings, Bases Manual Order makes no network requests. Sign in uses the GitHub device flow. Bases Manual Order sends its public client ID and the scope `read:user` to `https://github.com/login/device/code` and shows you a code. While you enter the code at https://github.com/login/device, it asks `https://github.com/login/oauth/access_token` every few seconds to check the sign-in status. The scope permits profile reads only. GitHub needs this access to show the sponsorship tier. It grants no repository scope and no write access.
 
