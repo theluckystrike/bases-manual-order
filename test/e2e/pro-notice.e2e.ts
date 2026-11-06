@@ -45,7 +45,7 @@ describe('custom rank property Pro gate', () => {
 		const notices = () => browser.executeObsidian(() => [...document.querySelectorAll('.notice')].map((n) => ({ text: n.textContent ?? '', buttons: n.querySelectorAll('.pf-pro-notice-sponsor').length })));
 		await browser.waitUntil(async () => (await notices()).some((n) => n.text.includes(LEAD)), { timeout: 5000, timeoutMsg: 'No Pro notice after Move up.' });
 		const notice = (await notices()).find((n) => n.text.includes(LEAD))!;
-		expect(notice.text).toContain(`${LEAD} Sponsor on GitHub, then sign in from the plugin settings.`);
+		expect(notice.text).toContain(`${LEAD} One payment turns on Pro in every NoteMods plugin. Sponsor on GitHub, then sign in from the plugin settings.`);
 		expect(notice.buttons).toBe(1);
 		expect((await notices()).some((n) => n.text.includes('Could not complete the move'))).toBe(false);
 		// The drop path goes through the same gate.

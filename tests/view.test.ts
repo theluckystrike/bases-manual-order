@@ -97,7 +97,7 @@ describe('review regressions', () => {
  it('shows move controls for a custom property when Pro is off, and a move shows the Pro notice without a write', async () => {
   const f=fixture(); f.view.config.get=()=> 'custom_order'; shown.length=0;
   ManualOrderView.prototype.onDataUpdated.call(f.view);
-  expect(f.root.textContent).toContain('Moving rows in this custom ordering needs Pro. Its rank property is unchanged. Sponsor on GitHub, then sign in from the plugin settings.');
+  expect(f.root.textContent).toContain('Moving rows in this custom ordering needs Pro. Its rank property is unchanged. One payment turns on Pro in every NoteMods plugin. Sponsor on GitHub, then sign in from the plugin settings.');
   expect(f.root.textContent).not.toContain('reconnect');
   const up=f.root.querySelector<HTMLButtonElement>('[aria-label="Move 2 up"]')!;
   expect(up).not.toBeNull(); expect(up.disabled).toBe(false); expect(f.root.querySelector('[draggable]')).not.toBeNull();
